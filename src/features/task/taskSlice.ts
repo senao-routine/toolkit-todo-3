@@ -38,15 +38,38 @@ export const taskSlice = createSlice({
       };
       state.tasks = [newTask, ...state.tasks];
     },
+    //taskの編集
+    editTask: (state, action) => {
+      //state.tasksの中から指定したいtaskを抜き出している
+      const task = state.tasks.find((t) => t.id === action.payload.id);
+      if (task) {
+        task.title = action.payload.title;
+      }
+    },
+    //どのtaskを選択しているか管理
+    selectTask: (state, action) => {
+      state.selectedTask = action.payload;
+    },
     // Madalを開くか閉じるののフラグ管理
+    handleModalOpen: (state, action) => {
+      state.isModalOpen = action.payload;
+    },
   },
 });
 
-export const { createTask } = taskSlice.actions;
+export const { createTask, editTask, selectTask, handleModalOpen } =
+  taskSlice.actions;
 
 // コンポーネント側からuseSlectorを用いてselectTaskを指定することで
 // stateの値をコンポーネントに渡すことが可能
-export const selectTask = (state: RootState): TaskState["tasks"] =>
+export const selectTasks = (state: RootState): TaskState["tasks"] =>
   state.task.tasks;
+
+export const selectIsModalOpen = (state: RootState): TaskState["isModalOpen"] =>
+  state.task.isModalOpen;
+
+export const selectSelectedTasks = (
+  state: RootState
+): TaskState["selectedTask"] => state.task.selectedTask;
 
 export default taskSlice.reducer;
