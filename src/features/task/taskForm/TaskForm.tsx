@@ -6,7 +6,7 @@ import {
   createTask,
   editTask,
   handleModalOpen,
-  selectSelectedTasks,
+  selectSelectedTask,
 } from "../taskSlice";
 import TextField from "@material-ui/core/TextField";
 
@@ -20,7 +20,7 @@ type PropTypes = {
 
 const TaskForm: React.FC<PropTypes> = ({ edit }) => {
   const dispatch = useDispatch();
-  const selectedTask = useSelector(selectSelectedTasks);
+  const selectedTask = useSelector(selectSelectedTask);
   const { register, handleSubmit, reset } = useForm();
   const handleCreate = (data: Inputs) => {
     dispatch(createTask(data.taskTitle));
@@ -33,7 +33,10 @@ const TaskForm: React.FC<PropTypes> = ({ edit }) => {
   };
   return (
     <div className={styles.root}>
-      <form onSubmit={handleSubmit(handleEdit)} className={styles.form}>
+      <form
+        onSubmit={edit ? handleSubmit(handleEdit) : handleSubmit(handleCreate)}
+        className={styles.form}
+      >
         <TextField
           id="outlined-basic"
           label={edit ? "Edit Task" : "New Task"}
