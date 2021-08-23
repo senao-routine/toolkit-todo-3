@@ -10,6 +10,7 @@ export const store = configureStore({
 });
 
 export type AppDispatch = typeof store.dispatch;
+// dispatch関数の型注釈として使用するため
 export type RootState = ReturnType<typeof store.getState>;
 export type AppThunk<ReturnType = void> = ThunkAction<
   ReturnType,
